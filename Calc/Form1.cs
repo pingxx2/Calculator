@@ -21,5 +21,47 @@ namespace Calc
         {
 
         }
+        //숫자 버튼 클릭 이벤트
+        private void Button_Num_Click(object sender, EventArgs e)
+        {
+            Text_Display.Text += ((Button)sender).Text;
+        }
+
+        //연산 버튼 클릭 이벤트
+        private void Button_Calc_Click(object sender, EventArgs e)
+        {
+            Text_Display.Text += ((Button)sender).Text;
+        }
+
+        //C 버튼 클릭 이벤트
+        private void Button_Clear_Click(object sender, EventArgs e)
+        {
+            Text_Display.Clear();
+            Text_Result.Clear();
+        }
+
+        //= 버튼 클릭 이벤트
+        private void Button_Equal_Click(object sender, EventArgs e)
+        {
+            //Text_Display의 식을 가져와서 계산 후 Text_Result에 출력
+            string line = Text_Display.Text;
+            char[] char_line = line.ToCharArray(); // 처음 식
+            double[] num_line = new double[100];
+
+            bool long_num = false;
+
+            //배열에 정리
+            for (int i = 0; i < char_line.Length; i++)
+            {
+                //숫자라면
+                if (char_line[i] >= '0' && char_line[i] <= '9')
+                {
+                    if (long_num)
+                    {
+                        
+                    }
+                }
+            }
+        }
     }
 }
