@@ -46,8 +46,8 @@ namespace Calc
             //Text_Display의 식을 가져와서 계산 후 Text_Result에 출력
             string line = Text_Display.Text;
             char[] char_line = line.ToCharArray(); // 처음 식
-            double[] num_line = new double[100];
-            char[] for_line = new char[100];
+            double[] num_line = new double[100]; //숫자 저장 식
+            char[] for_line = new char[100]; //문자 저장 식
 
             bool long_num = false;
 
@@ -59,12 +59,48 @@ namespace Calc
                 {
                     if (long_num)
                     {
-                        num_line[i] = (num_line[i] * 10) + Convert.ToDouble(char_line[i]);
+                        //두자리 이상
+                        num_line[i] = (num_line[i] * 10) + double.Parse(char_line[i].ToString());
                     }
                     else
                     {
-                        num_line[i] = Convert.ToDouble(char_line[i]);
+                        //한자리
+                        num_line[i] = double.Parse(char_line[i].ToString());
+                        long_num = true;
                     }
+                }
+                else
+                {
+                    long_num = false;
+                    for_line[i] = char_line[i];
+                }
+            }
+
+            double result = 0;
+            for (int j = 0; j < char_line.Length; j++)
+            {
+                if(for_line[j]=='x')
+                {
+                    num_line[j] = (num_line[j + 1]) * (num_line[j]);
+                }
+                else if(for_line[j] == '÷')
+                {
+                    num_line[j] = (num_line[j + 1]) / (num_line[j]);
+                }
+                else if (for_line[j] == '+')
+                {
+                    num_line[j + 1] = (num_line[j + 1]) + (num_line[j]);
+                    Text_Result.Text = for_line[j].ToString();
+                }
+                else if (for_line[j] == '-')
+                {
+                    num_line[j + 1] = (num_line[j + 1]) - (num_line[j]);
+                }
+                else if (num_line[j+1] == '\0')
+                {
+                    result = num_line[j];
+                    //Text_Result.Text = result.ToString();
+                    break;
                 }
             }
         }
