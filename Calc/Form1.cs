@@ -19,7 +19,7 @@ namespace Calc
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
         //숫자 버튼 클릭 이벤트
         private void Button_Num_Click(object sender, EventArgs e)
@@ -47,6 +47,7 @@ namespace Calc
             string line = Text_Display.Text;
             char[] char_line = line.ToCharArray(); // 처음 식
             double[] num_line = new double[100];
+            char[] for_line = new char[100];
 
             bool long_num = false;
 
@@ -58,7 +59,11 @@ namespace Calc
                 {
                     if (long_num)
                     {
-                        
+                        num_line[i] = (num_line[i] * 10) + Convert.ToDouble(char_line[i]);
+                    }
+                    else
+                    {
+                        num_line[i] = Convert.ToDouble(char_line[i]);
                     }
                 }
             }
