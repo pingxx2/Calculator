@@ -47,7 +47,7 @@ namespace Calc
             string line = Text_Display.Text;
             char[] char_line = line.ToCharArray(); // 처음 식
             double[] num_line = new double[100]; //숫자 저장 식
-            char[] for_line = new char[100]; //문자 저장 식
+            char[] for_line = new char[100]; //기호 저장 식
 
             bool long_num = false;
 
@@ -75,12 +75,13 @@ namespace Calc
                 }
                 else
                 {
+                    //기호 저장
                     long_num = false;
                     for_line[for_i] = char_line[i];
                     for_i++; 
                 }
             }
-            int count = 0;
+            int count = 0; //기호 개수 저장
             for(int k = 0; k < for_line.Length; k++)
             {
                 if (for_line[k] != 0)
@@ -88,38 +89,47 @@ namespace Calc
                     count++;
                 }
             }
-            double result = 0;
-            //Text_Result.Text = count.ToString();
+            double result = 0;//현재까지의 계산결과 저장
             for (int j = 0; j < char_line.Length; j++)
             {
                 if(for_line[j]=='x')
                 {
+                    //곱하기 연산
                     num_line[j] = (num_line[j + 1]) * (num_line[j]);
                     count--;
                 }
                 else if(for_line[j] == '÷')
                 {
+                    //나누기 연산
                     num_line[j] = (num_line[j + 1]) / (num_line[j]);
                     count--;
                 }
+                result = num_line[j];
             }
+            
             for (int j = 0; j < char_line.Length; j++)
             {
+                if (result == 0)
+                {
+                    // x나 ÷가 없을 경우 초기값 지정
+                    result = num_line[1];
+                }
                 if (count == 0)
                 {
-                    result = num_line[j + 1];
-                    Text_Result.Text = num_line[j].ToString();
+                    //기호가 0개, 계산 완료
+                    Text_Result.Text = result.ToString();
                     break;
                 }
                 else if (for_line[j] == '+')
                 {
-                    num_line[j + 1] = (num_line[j + 1]) + (num_line[j]);
+                    //빼기 연산
+                    result = result + (num_line[j]);
                     count--;
-                    //Text_Result.Text = count.ToString();
                 }
                 else if (for_line[j] == '-')
                 {
-                    num_line[j + 1] = (num_line[j + 1]) - (num_line[j]);
+                    //더하기 연산
+                    result = result - num_line[j + 1];
                     count--;
                 }
             }
