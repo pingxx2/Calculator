@@ -51,6 +51,8 @@ namespace Calc
 
             bool long_num = false;
 
+            int num_i = 0;
+            int for_i = 0;
             //배열에 정리
             for (int i = 0; i < char_line.Length; i++)
             {
@@ -60,47 +62,65 @@ namespace Calc
                     if (long_num)
                     {
                         //두자리 이상
-                        num_line[i] = (num_line[i] * 10) + double.Parse(char_line[i].ToString());
+                        num_line[num_i] = (num_line[num_i] * 10) + double.Parse(char_line[i].ToString());
+                        num_i++;
                     }
                     else
                     {
                         //한자리
-                        num_line[i] = double.Parse(char_line[i].ToString());
+                        num_line[num_i] = double.Parse(char_line[i].ToString());
                         long_num = true;
+                        num_i++;
                     }
                 }
                 else
                 {
                     long_num = false;
-                    for_line[i] = char_line[i];
+                    for_line[for_i] = char_line[i];
+                    for_i++; 
                 }
             }
-
+            int count = 0;
+            for(int k = 0; k < for_line.Length; k++)
+            {
+                if (for_line[k] != 0)
+                {
+                    count++;
+                }
+            }
             double result = 0;
+            //Text_Result.Text = count.ToString();
             for (int j = 0; j < char_line.Length; j++)
             {
                 if(for_line[j]=='x')
                 {
                     num_line[j] = (num_line[j + 1]) * (num_line[j]);
+                    count--;
                 }
                 else if(for_line[j] == '÷')
                 {
                     num_line[j] = (num_line[j + 1]) / (num_line[j]);
+                    count--;
+                }
+            }
+            for (int j = 0; j < char_line.Length; j++)
+            {
+                if (count == 0)
+                {
+                    result = num_line[j + 1];
+                    Text_Result.Text = num_line[j].ToString();
+                    break;
                 }
                 else if (for_line[j] == '+')
                 {
                     num_line[j + 1] = (num_line[j + 1]) + (num_line[j]);
-                    Text_Result.Text = for_line[j].ToString();
+                    count--;
+                    //Text_Result.Text = count.ToString();
                 }
                 else if (for_line[j] == '-')
                 {
                     num_line[j + 1] = (num_line[j + 1]) - (num_line[j]);
-                }
-                else if (num_line[j+1] == '\0')
-                {
-                    result = num_line[j];
-                    //Text_Result.Text = result.ToString();
-                    break;
+                    count--;
                 }
             }
         }
