@@ -82,44 +82,39 @@ namespace Calc
                 }
             }
             int count = 0; //기호 개수 저장
+            int count_f = 0; //초기값
             for(int k = 0; k < for_line.Length; k++)
             {
                 if (for_line[k] != 0)
                 {
                     count++;
+                    count_f++;
                 }
             }
+
             double result = 0;//현재까지의 계산결과 저장
-            for (int j = 0; j < char_line.Length; j++)
+            for (int j = 0; j < count_f; j++)
             {
-                if (count == 0)
-                {
-                    //기호가 0개, 계산 완료
-                    Text_Result.Text = result.ToString();
-                    break;
-                }
-                else if (for_line[j]=='x')
+                if (for_line[j]=='x')
                 {
                     //곱하기 연산
-                    num_line[j] = (num_line[j + 1]) * (num_line[j]);
+                    num_line[j + 1] = num_line[j] * num_line[j + 1];
+                    for_line[j] = '?';
+                    result = num_line[j + 1];
                     count--;
                 }
                 else if(for_line[j] == '÷')
                 {
                     //나누기 연산
-                    num_line[j] = (num_line[j]) / (num_line[j + 1]);
+                    num_line[j + 1] = num_line[j] / num_line[j + 1];
+                    for_line[j] = '?';
+                    result = num_line[j + 1];
                     count--;
                 }
-                result = num_line[j];
+                
             }
-            
-            for (int j = 0; j < char_line.Length; j++)
+            for (int j = 0; j < count_f + 1; j++)
             {
-                if (result == 0)
-                {
-                    // x나 ÷가 없을 경우 초기값 지정
-                    result = num_line[1];
-                }
                 if (count == 0)
                 {
                     //기호가 0개, 계산 완료
@@ -128,15 +123,43 @@ namespace Calc
                 }
                 else if (for_line[j] == '+')
                 {
+                    for (int k = j + 1; k < count_f + 1; k++)
+                    {
+                        if (for_line[k] != '?')
+                        {
+                            //더하기 연산
+                            num_line[k] = num_line[j] + num_line[k];
+                            for_line[j] = '?';
+                            count--;
+                            result = num_line[k];
+                            j = k - 1;
+                            break;
+                        }
+                    }
                     //더하기 연산
-                    result = result + (num_line[j]);
-                    count--;
+                    //num_line[j + 1] = num_line[j] + num_line[j + 1];
+                    //count--;
+                    //result = num_line[j + 1];
                 }
                 else if (for_line[j] == '-')
                 {
+                    for (int k = j + 1; k < count_f + 1; k++) 
+                    {
+                        if (for_line[k] != '?')
+                        {
+                            //빼기 연산
+                            num_line[k] = num_line[j] - num_line[k];
+                            for_line[j] = '?';
+                            count--;
+                            result = num_line[k];
+                            j = k - 1;
+                            break;
+                        }
+                    }
                     //빼기 연산
-                    result = num_line[j] - result;
-                    count--;
+                    //num_line[j + 1] = num_line[j] - num_line[j + 1];
+                    //count--;
+                    //result = num_line[j + 1];
                 }
             }
         }
