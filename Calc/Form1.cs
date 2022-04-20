@@ -63,18 +63,18 @@ namespace Calc
                     {
                         //두자리 이상
                         num_line[num_i] = (num_line[num_i] * 10) + double.Parse(char_line[i].ToString());
-                        num_i++;
+                        long_num = true;
                     }
                     else
                     {
                         //한자리
                         num_line[num_i] = double.Parse(char_line[i].ToString());
                         long_num = true;
-                        num_i++;
                     }
                 }
                 else
                 {
+                    num_i++;
                     //기호 저장
                     long_num = false;
                     for_line[for_i] = char_line[i];
@@ -92,7 +92,13 @@ namespace Calc
             double result = 0;//현재까지의 계산결과 저장
             for (int j = 0; j < char_line.Length; j++)
             {
-                if(for_line[j]=='x')
+                if (count == 0)
+                {
+                    //기호가 0개, 계산 완료
+                    Text_Result.Text = result.ToString();
+                    break;
+                }
+                else if (for_line[j]=='x')
                 {
                     //곱하기 연산
                     num_line[j] = (num_line[j + 1]) * (num_line[j]);
@@ -101,7 +107,7 @@ namespace Calc
                 else if(for_line[j] == '÷')
                 {
                     //나누기 연산
-                    num_line[j] = (num_line[j + 1]) / (num_line[j]);
+                    num_line[j] = (num_line[j]) / (num_line[j + 1]);
                     count--;
                 }
                 result = num_line[j];
@@ -122,14 +128,14 @@ namespace Calc
                 }
                 else if (for_line[j] == '+')
                 {
-                    //빼기 연산
+                    //더하기 연산
                     result = result + (num_line[j]);
                     count--;
                 }
                 else if (for_line[j] == '-')
                 {
-                    //더하기 연산
-                    result = result - num_line[j + 1];
+                    //빼기 연산
+                    result = num_line[j] - result;
                     count--;
                 }
             }
