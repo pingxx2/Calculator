@@ -136,10 +136,6 @@ namespace Calc
                             break;
                         }
                     }
-                    //더하기 연산
-                    //num_line[j + 1] = num_line[j] + num_line[j + 1];
-                    //count--;
-                    //result = num_line[j + 1];
                 }
                 else if (for_line[j] == '-')
                 {
@@ -156,10 +152,6 @@ namespace Calc
                             break;
                         }
                     }
-                    //빼기 연산
-                    //num_line[j + 1] = num_line[j] - num_line[j + 1];
-                    //count--;
-                    //result = num_line[j + 1];
                 }
             }
         }
